@@ -1,6 +1,6 @@
 {
   "name": "@ionutpuenaru/employee_table",
-  "version": "1.1.0",
+  "version": "1.1.4",
   "description": "A reusable Employee Table component",
   "main": "dist/my-employee-list-package.umd.js",
   "module": "dist/my-employee-list-package.es.js",

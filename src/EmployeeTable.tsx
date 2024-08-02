@@ -1,61 +1,62 @@
 import React from 'react';
 import './employee.css';
 
-interface Employee {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  startDate: string;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
-  department: string;
+// Define the types for the data and props
+export interface DataRow {
+  [key: string]: string | number | Date;
 }
 
-interface EmployeeTableProps {
-  employees: Employee[];
+export interface EmployeeTableProps {
+  data: DataRow[];
   tableClassName?: string;
   headerClassName?: string;
   rowClassName?: string;
   cellClassName?: string;
 }
 
-export const EmployeeTable: React.FC<EmployeeTableProps> = ({
-  employees,
+// Utility function to format headers
+const formatHeader = (header: string) => {
+  return header.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^[a-z]/, (char) => char.toUpperCase());
+};
+
+
+// Table component
+const EmployeeTable: React.FC<EmployeeTableProps> = ({
+  data,
   tableClassName = '',
   headerClassName = '',
   rowClassName = '',
   cellClassName = '',
 }) => {
+  // Ensure data is not empty
+  if (!data || data.length === 0) {
+    return <p>No data available</p>;
+  }
+
+  // Extract headers from the keys of the first data object
+  const headers = Object.keys(data[0]);
+
   return (
     <div className='table-container'>
       <table className={`table ${tableClassName}`}>
         <thead>
           <tr className={headerClassName}>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Start Date</th>
-            <th>Department</th>
-            <th>Date of Birth</th>
-            <th>Street</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip Code</th>
+            {headers.map((header) => (
+              <th key={header}>{formatHeader(header)}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee: Employee, index: number) => (
+          {data.map((row, index) => (
             <tr key={index} className={rowClassName}>
-              <td className={cellClassName}>{employee.firstName}</td>
-              <td className={cellClassName}>{employee.lastName}</td>
-              <td className={cellClassName}>{employee.startDate}</td>
-              <td className={cellClassName}>{employee.department}</td>
-              <td className={cellClassName}>{employee.dateOfBirth}</td>
-              <td className={cellClassName}>{employee.street}</td>
-              <td className={cellClassName}>{employee.city}</td>
-              <td className={cellClassName}>{employee.state}</td>
-              <td className={cellClassName}>{employee.zipCode}</td>
+            {headers.map((header) => (
+              <td key={header} className={cellClassName}>
+                {typeof row[header] === 'object' && row[header] instanceof Date
+                  ? row[header].toLocaleString()
+                  : row[header]
+                }
+              </td>
+            ))}
             </tr>
           ))}
         </tbody>
@@ -64,5 +65,5 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   );
 };
 
-
 export default EmployeeTable;
+
