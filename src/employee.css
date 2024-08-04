@@ -1,17 +1,13 @@
 .table-container{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap:10px;
   justify-content: center;
-  height: 100vh;
   padding: 0 1rem;
 }
 
 .table {
   border-collapse: collapse;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .table th, .table td {
@@ -24,9 +20,61 @@
 }
 
 .table tr:nth-child(even) {
-  background-color: #282A3A;
+  background-color: #bbbed1;
 }
 
 .table td {
   text-align: center;
 }
+
+.headerFunctions{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+}
+
+.selector-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.searchBar-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.footerFunctions{
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.pagination{
+  display: flex;
+  
+}
+.pages{
+  display: inline-block;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
