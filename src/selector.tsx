@@ -1,21 +1,29 @@
-import { useState } from "react"
-import './employee.css';
+// Selector.tsx
+import React from 'react';
 
-const Selector = () => {
-    const [entries, setEntries] = useState(10);
+type SelectorProps = {
+  rowsPerPage: number;
+  setRowsPerPage: (rows: number) => void;
+};
+
+const Selector: React.FC<SelectorProps> = ({ rowsPerPage, setRowsPerPage }) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setRowsPerPage(Number(e.target.value));
+  };
 
   return (
     <div className="selector-container">
-    <label htmlFor="entries">Show</label>
-    <select value={entries} onChange={(e) => setEntries(Number(e.target.value))}>
+      <label htmlFor="entries">Show</label>
+      <select value={rowsPerPage} onChange={handleSelectChange}>
         <option value='10'>10</option>
         <option value='25'>25</option>
         <option value='50'>50</option>
         <option value='100'>100</option>
-    </select>
-    <label>entries</label>
+      </select>
+      <label>entries</label>
     </div>
-  )
-}
+  );
+};
 
 export default Selector;
+

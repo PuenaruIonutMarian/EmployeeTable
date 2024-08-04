@@ -33,14 +33,26 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   cellClassName = '',
 }) => {
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Extract headers from the keys of the first data object
-  const headers = data.length > 0 ? Object.keys(data[0]) : [];
+  const headers = useMemo(() => (data.length > 0 ? Object.keys(data[0]) : []), [data]);
+
+  // Filter data based on searchQuery
+  const filteredData = useMemo(() => {
+    return data.filter(row =>
+      headers.some(header =>
+        row[header].toString().toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [data, searchQuery, headers]);
 
   // Sort data based on sortConfig
   const sortedData = useMemo(() => {
     if (sortConfig !== null) {
-      return [...data].sort((a, b) => {
+      return [...filteredData].sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === 'asc' ? -1 : 1;
         }
@@ -50,8 +62,11 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
         return 0;
       });
     }
-    return data;
-  }, [data, sortConfig]);
+    return filteredData;
+  }, [filteredData, sortConfig]);
+
+  // Paginate data
+  const paginatedData = sortedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   const requestSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -61,54 +76,72 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
     setSortConfig({ key, direction });
   };
 
+  const handleRowsPerPageChange = (rows: number) => {
+    const firstEntryIndex = (currentPage - 1) * rowsPerPage;
+    const newPage = Math.floor(firstEntryIndex / rows) + 1;
+    setRowsPerPage(rows);
+    setCurrentPage(newPage);
+  };
+
   return (
     <div className='table-container'>
       <div className='headerFunctions'>
-        <Selector />
-        <SearchBar />
+        <Selector
+          rowsPerPage={rowsPerPage}
+          setRowsPerPage={handleRowsPerPageChange}
+        />
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
       </div>
       {data.length === 0 ? (
         <p>No data available</p>
       ) : (
-        <table className={`table ${tableClassName}`}>
-          <thead>
-            <tr className={headerClassName}>
-              {headers.map((header) => (
-                <th key={header} onClick={() => requestSort(header)}>
- 
-                  {formatHeader(header)}
-                  <SortIcon
-                    isSorted={sortConfig?.key === header}
-                    isSortedDesc={sortConfig?.direction === 'desc'}
-                  />
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {sortedData.map((row, index) => (
-              <tr key={index} className={rowClassName}>
+        <>
+          <table className={`table ${tableClassName}`}>
+            <thead>
+              <tr className={headerClassName}>
                 {headers.map((header) => (
-                  <td key={header} className={cellClassName}>
-                    {typeof row[header] === 'object' && row[header] instanceof Date
-                      ? row[header].toLocaleString()
-                      : row[header]
-                    }
-                  </td>
+                  <th key={header} onClick={() => requestSort(header)}>
+                    {formatHeader(header)}
+                    <SortIcon
+                      isSorted={sortConfig?.key === header}
+                      isSortedDesc={sortConfig?.direction === 'desc'}
+                    />
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {paginatedData.map((row, index) => (
+                <tr key={index} className={rowClassName}>
+                  {headers.map((header) => (
+                    <td key={header} className={cellClassName}>
+                      {typeof row[header] === 'object' && row[header] instanceof Date
+                        ? row[header].toLocaleString()
+                        : row[header]
+                      }
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className='footerFunctions'>
+            <Compter
+              currentPage={currentPage}
+              rowsPerPage={rowsPerPage}
+              totalEntries={filteredData.length}
+            />
+            <Pagination
+              totalPages={Math.ceil(filteredData.length / rowsPerPage)}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        </>
       )}
-      <div className='footerFunctions'>
-        <Compter />
-        <Pagination
-          totalPages={10}
-          currentPage={1}
-          onPageChange={(page) => console.log(page)}
-        />
-      </div>
     </div>
   );
 };

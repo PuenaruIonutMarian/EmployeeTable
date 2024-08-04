@@ -1,4 +1,4 @@
-export const data = Array.from({length:30}, (_, i) => ({
+export const data = Array.from({length:120}, (_, i) => ({
         id: i+1,
         name: `Person${i+1}`,
         age: Math.floor(Math.random() * 50) + 18,
