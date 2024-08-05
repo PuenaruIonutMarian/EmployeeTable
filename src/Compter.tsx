@@ -12,7 +12,7 @@ const Compter: React.FC<CompterProps> = ({ currentPage, rowsPerPage, totalEntrie
 
   return (
     <div className='compter'>
-      <p>Showing {startEntry} to {endEntry} of {totalEntries} entries</p>
+      <p>Showing <strong>{startEntry}</strong> to <strong>{endEntry}</strong> of <strong>{totalEntries}</strong> entries</p>
     </div>
   );
 };

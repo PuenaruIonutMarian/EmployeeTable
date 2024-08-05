@@ -1,3 +1,5 @@
+
+/* /////////////////// TABLE CONTAINER///////////// */
 .table-container{
   display: flex;
   flex-direction: column;
@@ -6,6 +8,7 @@
   padding: 0 1rem;
 }
 
+/*  TABLE */
 .table {
   border-collapse: collapse;
 }
@@ -16,17 +19,68 @@
 }
 
 .table th {
+
   text-align: center;
+
 }
 
 .table tr:nth-child(even) {
   background-color: #bbbed1;
 }
 
+.table tr:hover {
+  background-color: #ddd;
+}
+
 .table td {
   text-align: center;
 }
 
+
+/*   SORT ICON  */
+.sort-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px; 
+  margin-left: 5px; 
+  color: gray;
+  cursor: pointer;
+}
+
+.sort-icon .up-arrow,
+.sort-icon .down-arrow {
+  display: block;
+}
+
+.sort-icon .up-arrow {
+  margin-bottom: -0.2em; 
+}
+
+.sort-icon .down-arrow {
+  margin-top: -0.2em; 
+}
+
+.sort-icon.sorted-asc .down-arrow,
+.sort-icon.sorted-desc .up-arrow {
+  display: none;
+}
+
+.sort-icon.sorted-asc,
+.sort-icon.sorted-desc {
+  color: black;
+}
+
+
+
+/* /////////////////// HEADER FUNCTIONS///////////// */
 .headerFunctions{
   display: flex;
   justify-content: space-between;
@@ -34,6 +88,8 @@
 
 }
 
+
+/*  SELECTOR */
 .selector-container{
   display: flex;
   flex-direction: row;
@@ -42,6 +98,8 @@
   gap: 5px;
 }
 
+
+/*  SEARCH BAR */
 .searchBar-container{
   display: flex;
   flex-direction: row;
@@ -50,26 +108,34 @@
   gap: 5px;
 }
 
+
+
+/* /////////////////// FOOTER FUNCTIONS///////////// */
 .footerFunctions{
   display: flex;
   justify-content: space-between;
 
 }
 
-.pagination{
+
+/*  PAGINATION */
+.pagination {
   display: flex;
-  
+  align-items: center;
 }
-.pages{
-  display: inline-block;
+
+.pages {
+  display: inline-flex;
 }
 
 .pagination a {
   color: black;
-  float: left;
   padding: 8px 16px;
   text-decoration: none;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
+  margin: 0 2px; /* Adjust the margin to fit the design */
+  border: 1px solid #ddd; /* Add border to make them more button-like */
+  border-radius: 4px; /* Optional: add border radius for a smoother look */
 }
 
 .pagination a.active {
@@ -77,4 +143,22 @@
   color: white;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.pagination button {
+  border: none;
+  padding: 8px 16px;
+  background-color: inherit;
+  cursor: pointer;
+  margin: 0 2px; /* Adjust the margin to fit the design */
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+

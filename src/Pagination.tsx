@@ -1,3 +1,5 @@
+import React from 'react';
+
 
 type PaginationProps = {
   totalPages: number;
@@ -5,36 +7,70 @@ type PaginationProps = {
   onPageChange: (page: number) => void;
 };
 
-const Pagination = ({ totalPages, currentPage, onPageChange }: PaginationProps) => {
-  const handlePageClick = (page: number) => {
-    onPageChange(page);
+const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPageChange }) => {
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxPagesToShow = 4;
+
+    if (totalPages <= maxPagesToShow) {
+      // Show all pages if total pages are less than or equal to maxPagesToShow
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Show the first few pages, the last few pages, and the current page range
+      if (currentPage <= maxPagesToShow - 1) {
+        // Near the beginning
+        for (let i = 1; i <= maxPagesToShow; i++) {
+          pages.push(i);
+        }
+        pages.push( '...', totalPages);
+      } else if (currentPage >= totalPages - maxPagesToShow + 2) {
+        // Near the end
+        pages.push(1, '...');
+        for (let i = totalPages - maxPagesToShow + 1; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        // In the middle
+        pages.push(currentPage - 2, currentPage - 1, currentPage, currentPage + 1);
+        pages.push('...', totalPages);
+      }
+    }
+
+    return pages;
+  };
+
+  const handlePageClick = (page: number | string) => {
+    if (page === '...') return;
+    onPageChange(page as number);
   };
 
   return (
     <div className='pagination'>
-      <button
-        className="button-backward"
-        onClick={() => handlePageClick(currentPage > 1 ? currentPage - 1 : 1)}
-        disabled={currentPage === 1}
+      <button 
+        className="button-backward" 
+        disabled={currentPage === 1} 
+        onClick={() => onPageChange(currentPage - 1)}
       >
         &laquo;
       </button>
       <div className="pages">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+        {generatePageNumbers().map((page, index) => (
           <a
-            key={page}
+            key={index}
             className={page === currentPage ? 'active' : ''}
             onClick={() => handlePageClick(page)}
-            style={{ cursor: 'pointer', margin: '0 5px' }}
+            style={{ cursor: page === '...' ? 'default' : 'pointer', margin: '0 5px' }}
           >
             {page}
           </a>
         ))}
       </div>
-      <button
-        className="button-forward"
-        onClick={() => handlePageClick(currentPage < totalPages ? currentPage + 1 : totalPages)}
-        disabled={currentPage === totalPages}
+      <button 
+        className="button-forward" 
+        disabled={currentPage === totalPages} 
+        onClick={() => onPageChange(currentPage + 1)}
       >
         &raquo;
       </button>
@@ -43,3 +79,4 @@ const Pagination = ({ totalPages, currentPage, onPageChange }: PaginationProps) 
 };
 
 export default Pagination;
+

@@ -2,29 +2,13 @@ import React, { useState, useMemo } from 'react';
 import './employee.css';
 import Selector from './selector';
 import SearchBar from './SearchBar';
-import SortIcon from './SortIcon';
 import Compter from './Compter';
 import Pagination from './Pagination';
+import TableHeader from './TableHeader';
+import TableRows from './TableRows';
+import { EmployeeTableProps } from './types';
+import { sortData, filterData, paginateData } from './utils';
 
-// Define the types for the data and props
-export interface DataRow {
-  [key: string]: string | number | Date;
-}
-
-export interface EmployeeTableProps {
-  data: DataRow[];
-  tableClassName?: string;
-  headerClassName?: string;
-  rowClassName?: string;
-  cellClassName?: string;
-}
-
-// Utility function to format headers
-const formatHeader = (header: string) => {
-  return header.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^[a-z]/, (char) => char.toUpperCase());
-};
-
-// Table component
 export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   data,
   tableClassName = '',
@@ -40,33 +24,9 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   // Extract headers from the keys of the first data object
   const headers = useMemo(() => (data.length > 0 ? Object.keys(data[0]) : []), [data]);
 
-  // Filter data based on searchQuery
-  const filteredData = useMemo(() => {
-    return data.filter(row =>
-      headers.some(header =>
-        row[header].toString().toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-  }, [data, searchQuery, headers]);
-
-  // Sort data based on sortConfig
-  const sortedData = useMemo(() => {
-    if (sortConfig !== null) {
-      return [...filteredData].sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-    return filteredData;
-  }, [filteredData, sortConfig]);
-
-  // Paginate data
-  const paginatedData = sortedData.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+  const filteredData = useMemo(() => filterData(data, searchQuery, headers), [data, searchQuery, headers]);
+  const sortedData = useMemo(() => sortData(filteredData, sortConfig), [filteredData, sortConfig]);
+  const paginatedData = useMemo(() => paginateData(sortedData, currentPage, rowsPerPage), [sortedData, currentPage, rowsPerPage]);
 
   const requestSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -100,33 +60,18 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
       ) : (
         <>
           <table className={`table ${tableClassName}`}>
-            <thead>
-              <tr className={headerClassName}>
-                {headers.map((header) => (
-                  <th key={header} onClick={() => requestSort(header)}>
-                    {formatHeader(header)}
-                    <SortIcon
-                      isSorted={sortConfig?.key === header}
-                      isSortedDesc={sortConfig?.direction === 'desc'}
-                    />
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedData.map((row, index) => (
-                <tr key={index} className={rowClassName}>
-                  {headers.map((header) => (
-                    <td key={header} className={cellClassName}>
-                      {typeof row[header] === 'object' && row[header] instanceof Date
-                        ? row[header].toLocaleString()
-                        : row[header]
-                      }
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
+            <TableHeader
+              headers={headers}
+              sortConfig={sortConfig}
+              requestSort={requestSort}
+              headerClassName={headerClassName}
+            />
+            <TableRows
+              data={paginatedData}
+              headers={headers}
+              rowClassName={rowClassName}
+              cellClassName={cellClassName}
+            />
           </table>
           <div className='footerFunctions'>
             <Compter
@@ -147,3 +92,4 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
 };
 
 export default EmployeeTable;
+
