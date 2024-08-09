@@ -6,6 +6,7 @@ type SelectorProps = {
   setRowsPerPage: (rows: number) => void;
 };
 
+//Allows users to select how many rows are displayed per page.
 const Selector: React.FC<SelectorProps> = ({ rowsPerPage, setRowsPerPage }) => {
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRowsPerPage(Number(e.target.value));

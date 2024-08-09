@@ -7,6 +7,7 @@ type PaginationProps = {
   onPageChange: (page: number) => void;
 };
 
+ //Provides navigation controls for paginating through the data.
 const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPageChange }) => {
   const generatePageNumbers = () => {
     const pages = [];

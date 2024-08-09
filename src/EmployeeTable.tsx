@@ -16,9 +16,17 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   rowClassName = '',
   cellClassName = '',
 }) => {
-  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  //Manages which column is sorted and in what direction.
+  // const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+    const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>({
+    key: Object.keys(data[0])[0], // Default to the first column
+    direction: 'asc',
+  });
+  //Keeps track of the current page number.
   const [currentPage, setCurrentPage] = useState(1);
+  //Determines how many rows to display per page.
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  //Holds the search term for filtering data.
   const [searchQuery, setSearchQuery] = useState('');
 
   // Extract headers from the keys of the first data object
@@ -69,6 +77,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
             <TableRows
               data={paginatedData}
               headers={headers}
+              sortConfig={sortConfig}
               rowClassName={rowClassName}
               cellClassName={cellClassName}
             />

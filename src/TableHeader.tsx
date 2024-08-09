@@ -1,6 +1,5 @@
 import React from 'react';
 import SortIcon from './SortIcon';
-import { formatHeader } from './utils';
 
 interface TableHeaderProps {
   headers: string[];
@@ -19,9 +18,13 @@ const TableHeader: React.FC<TableHeaderProps> = ({
     <thead>
       <tr className={headerClassName}>
         {headers.map((header) => (
-          <th key={header} onClick={() => requestSort(header)}>
+          <th
+            key={header}
+            onClick={() => requestSort(header)}
+            className={sortConfig?.key === header ? 'sorted-column' : ''}
+          >
             <div className="sort-icon-container">
-              {formatHeader(header)}
+              {header}
               <SortIcon
                 isSorted={sortConfig?.key === header}
                 isSortedDesc={sortConfig?.direction === 'desc'}
