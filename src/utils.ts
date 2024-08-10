@@ -8,12 +8,22 @@ export const formatHeader = (header: string) => {
 //This function sorts an array of data based on a specified key and direction (ascending or descending).
 export const sortData = (data: DataRow[], sortConfig: { key: string; direction: 'asc' | 'desc' } | null) => {
   if (!sortConfig) return data;
-  //The sort() method returns -1 to place the first item before the second, 1 to place it after, or 0 to keep the order unchanged.
+
   return [...data].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
+    const valueA = a[sortConfig.key];
+    const valueB = b[sortConfig.key];
+
+    // Convert to string and normalize for case-insensitive and accent-insensitive comparison
+    const formattedValueA = valueA.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const formattedValueB = valueB.toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  // -1 to place the first item before the second, 
+  //  1 to place it after
+  //  0 to keep the order unchanged.
+    if (formattedValueA < formattedValueB) {
       return sortConfig.direction === 'asc' ? -1 : 1;
     }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
+    if (formattedValueA > formattedValueB) {
       return sortConfig.direction === 'asc' ? 1 : -1;
     }
     return 0;

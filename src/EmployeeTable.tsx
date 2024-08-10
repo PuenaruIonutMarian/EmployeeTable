@@ -9,6 +9,7 @@ import TableRows from './TableRows';
 import { EmployeeTableProps } from './types';
 import { sortData, filterData, paginateData } from './utils';
 
+
 export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   data,
   tableClassName = '',
@@ -22,6 +23,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
     key: Object.keys(data[0])[0], // Default to the first column
     direction: 'asc',
   });
+  console.log(sortConfig);
   //Keeps track of the current page number.
   const [currentPage, setCurrentPage] = useState(1);
   //Determines how many rows to display per page.
@@ -44,6 +46,8 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
     setSortConfig({ key, direction });
   };
 
+  // method to keep track of the last viewed data on the current page
+  // takes the new rowsPerPage value as input
   const handleRowsPerPageChange = (rows: number) => {
     const firstEntryIndex = (currentPage - 1) * rowsPerPage;
     const newPage = Math.floor(firstEntryIndex / rows) + 1;

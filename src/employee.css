@@ -38,7 +38,7 @@
 
 .table th.sorted-column,
 .table td.sorted-column {
-   background-color: rgba(255, 251, 251, 0.959);
+   background-color: rgba(0, 0, 0, 0.05);
 }
 
 /*   SORT ICON  */
@@ -137,9 +137,9 @@
   padding: 8px 16px;
   text-decoration: none;
   transition: background-color 0.3s;
-  margin: 0 2px; /* Adjust the margin to fit the design */
-  border: 1px solid #ddd; /* Add border to make them more button-like */
-  border-radius: 4px; /* Optional: add border radius for a smoother look */
+  margin: 0 2px; 
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
 }
 
 .pagination a.active {
@@ -156,7 +156,7 @@
   padding: 8px 16px;
   background-color: inherit;
   cursor: pointer;
-  margin: 0 2px; /* Adjust the margin to fit the design */
+  margin: 0 2px; 
 }
 
 .pagination button:disabled {
