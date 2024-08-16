@@ -1,5 +1,3 @@
-import React from 'react';
-
 type CompterProps = {
   currentPage: number;
   rowsPerPage: number;

@@ -1,2 +1,2 @@
-export { default as EmployeeTable } from './EmployeeTable';
-export type {DataRow} from './types';
+export { default as EmployeeTable } from './pages/EmployeeTable';
+export type {DataRow} from './types/types';

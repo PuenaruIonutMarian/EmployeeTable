@@ -1,5 +1,4 @@
-import React from 'react';
-import './employee.css';
+import '../styles/employee.css';
 
 type SearchBarProps = {
   searchQuery: string;

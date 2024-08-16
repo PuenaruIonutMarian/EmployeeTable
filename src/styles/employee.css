@@ -3,9 +3,8 @@
 .table-container{
   display: flex;
   flex-direction: column;
-  gap:10px;
   justify-content: center;
-  padding: 0 1rem;
+  gap:10px;
 }
 
 /*  TABLE */
@@ -125,7 +124,10 @@
 /*  PAGINATION */
 .pagination {
   display: flex;
+  justify-content: center;
   align-items: center;
+  gap: 5px;
+
 }
 
 .pages {
@@ -143,7 +145,7 @@
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #9B3922;
   color: white;
 }
 

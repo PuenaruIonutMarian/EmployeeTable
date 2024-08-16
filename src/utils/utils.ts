@@ -1,4 +1,4 @@
-import { DataRow } from './types';
+import { DataRow } from '../types/types';
 
 //regex rules: transform camel case to human-readable titles
 export const formatHeader = (header: string) => {

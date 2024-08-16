@@ -1,5 +1,5 @@
-import React from 'react';
 import SortIcon from './SortIcon';
+import { formatHeader } from '../utils/utils';
 
 interface TableHeaderProps {
   headers: string[];
@@ -7,6 +7,7 @@ interface TableHeaderProps {
   requestSort: (key: string) => void;
   headerClassName?: string;
 }
+
 
 const TableHeader: React.FC<TableHeaderProps> = ({
   headers,
@@ -21,10 +22,18 @@ const TableHeader: React.FC<TableHeaderProps> = ({
           <th
             key={header}
             onClick={() => requestSort(header)}
+            aria-sort={
+              sortConfig?.key === header
+                ? sortConfig.direction === 'asc'
+                  ? 'ascending'
+                  : 'descending'
+                : 'none'
+            }
             className={sortConfig?.key === header ? 'sorted-column' : ''}
+            role="columnheader"
           >
             <div className="sort-icon-container">
-              {header}
+              {formatHeader(header)}
               <SortIcon
                 isSorted={sortConfig?.key === header}
                 isSortedDesc={sortConfig?.direction === 'desc'}

@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 interface SortIconProps {
   isSorted: boolean;
   isSortedDesc: boolean;

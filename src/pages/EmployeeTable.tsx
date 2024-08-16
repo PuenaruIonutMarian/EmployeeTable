@@ -1,17 +1,18 @@
-import React, { useState, useMemo } from 'react';
-import './employee.css';
-import Selector from './selector';
-import SearchBar from './SearchBar';
-import Compter from './Compter';
-import Pagination from './Pagination';
-import TableHeader from './TableHeader';
-import TableRows from './TableRows';
-import { EmployeeTableProps } from './types';
-import { sortData, filterData, paginateData } from './utils';
+import React, { useState, useMemo, useEffect } from 'react';
+import '../styles/employee.css';
+import Selector from '../components/selector';
+import SearchBar from '../components/SearchBar';
+import Compter from '../components/Compter';
+import Pagination from '../components/Pagination';
+import TableHeader from '../components/TableHeader';
+import TableRows from '../components/TableRows';
+import { EmployeeTableProps } from '../types/types';
+import { sortData, filterData, paginateData } from '../utils/utils';
 
 
 export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   data,
+  tableAppClassName = '',
   tableClassName = '',
   headerClassName = '',
   rowClassName = '',
@@ -30,12 +31,13 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   const [rowsPerPage, setRowsPerPage] = useState(10);
   //Holds the search term for filtering data.
   const [searchQuery, setSearchQuery] = useState('');
-
   // Extract headers from the keys of the first data object
   const headers = useMemo(() => (data.length > 0 ? Object.keys(data[0]) : []), [data]);
-
+  //Filters the data based on the search query.
   const filteredData = useMemo(() => filterData(data, searchQuery, headers), [data, searchQuery, headers]);
+  //Sorts the data based on the sort config.
   const sortedData = useMemo(() => sortData(filteredData, sortConfig), [filteredData, sortConfig]);
+  //Paginates the data based on the current page and rows per page.
   const paginatedData = useMemo(() => paginateData(sortedData, currentPage, rowsPerPage), [sortedData, currentPage, rowsPerPage]);
 
   const requestSort = (key: string) => {
@@ -45,6 +47,13 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
     }
     setSortConfig({ key, direction });
   };
+
+  // Reset current page if filtered data is smaller than current page
+  useEffect(() => {
+    if ((currentPage - 1) * rowsPerPage >= filteredData.length) {
+      setCurrentPage(1);
+    }
+  }, [filteredData.length, currentPage, rowsPerPage]);
 
   // method to keep track of the last viewed data on the current page
   // takes the new rowsPerPage value as input
@@ -56,7 +65,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   };
 
   return (
-    <div className='table-container'>
+    <div className={`table-container ${tableAppClassName}`}>
       <div className='headerFunctions'>
         <Selector
           rowsPerPage={rowsPerPage}

@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
@@ -49,32 +46,37 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPage
 
   return (
     <div className='pagination'>
-      <button 
-        className="button-backward" 
-        disabled={currentPage === 1} 
-        onClick={() => onPageChange(currentPage - 1)}
-      >
-        &laquo;
-      </button>
-      <div className="pages">
-        {generatePageNumbers().map((page, index) => (
-          <a
-            key={index}
-            className={page === currentPage ? 'active' : ''}
-            onClick={() => handlePageClick(page)}
-            style={{ cursor: page === '...' ? 'default' : 'pointer', margin: '0 5px' }}
-          >
-            {page}
-          </a>
-        ))}
-      </div>
-      <button 
-        className="button-forward" 
-        disabled={currentPage === totalPages} 
-        onClick={() => onPageChange(currentPage + 1)}
-      >
-        &raquo;
-      </button>
+<button 
+  className="button-backward" 
+  disabled={currentPage === 1} 
+  onClick={() => onPageChange(currentPage - 1)}
+  aria-label="Previous Page"
+>
+  &laquo;
+</button>
+
+<div className="pages">
+  {generatePageNumbers().map((page, index) => (
+    <a
+      key={index}
+      className={page === currentPage ? 'active' : ''}
+      onClick={() => handlePageClick(page)}
+      style={{ cursor: page === '...' ? 'default' : 'pointer', margin: '0 5px' }}
+      aria-current={page === currentPage ? 'page' : undefined}
+    >
+      {page}
+    </a>
+  ))}
+</div>
+
+<button 
+  className="button-forward" 
+  disabled={currentPage === totalPages} 
+  onClick={() => onPageChange(currentPage + 1)}
+  aria-label="Next Page"
+>
+  &raquo;
+</button>
     </div>
   );
 };

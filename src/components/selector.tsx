@@ -1,6 +1,3 @@
-// Selector.tsx
-import React from 'react';
-
 type SelectorProps = {
   rowsPerPage: number;
   setRowsPerPage: (rows: number) => void;

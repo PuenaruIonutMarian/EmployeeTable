@@ -4,6 +4,7 @@ export interface DataRow {
 
 export interface EmployeeTableProps {
   data: DataRow[];
+  tableAppClassName?: string;
   tableClassName?: string;
   headerClassName?: string;
   rowClassName?: string;

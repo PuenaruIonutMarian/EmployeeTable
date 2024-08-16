@@ -1,6 +1,6 @@
 {
   "name": "@ionutpuenaru/employee_table",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "A reusable Employee Table component",
   "main": "dist/my-employee-list-package.umd.js",
   "module": "dist/my-employee-list-package.es.js",
@@ -14,8 +14,10 @@
     "deploy": "npm publish --access public"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.7",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-redux": "^9.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",
