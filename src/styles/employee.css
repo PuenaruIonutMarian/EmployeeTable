@@ -18,9 +18,7 @@
 }
 
 .table th {
-
   text-align: center;
-
 }
 
 .table tr:nth-child(even) {
@@ -28,8 +26,15 @@
 }
 
 .table tr:hover {
-  background-color: #ddd;
+  background-color: rgba(255, 255, 255, 0.123);
 }
+
+.table thead tr:hover {
+  background-color: unset; 
+  color:unset;
+}
+
+
 
 .table td {
   text-align: center;
@@ -45,6 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .sort-icon {
@@ -134,7 +140,7 @@
   display: inline-flex;
 }
 
-.pagination a {
+.pagination button {
   color: black;
   padding: 8px 16px;
   text-decoration: none;
@@ -144,12 +150,12 @@
   border-radius: 4px; 
 }
 
-.pagination a.active {
+.pagination button.active {
   background-color: #9B3922;
   color: white;
 }
 
-.pagination a:hover:not(.active) {
+.pagination button:hover:not(.active) {
   background-color: #ddd;
 }
 
