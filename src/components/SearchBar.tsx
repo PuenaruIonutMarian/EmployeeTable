@@ -5,7 +5,6 @@ type SearchBarProps = {
   setSearchQuery: (query: string) => void;
 };
 
-// Allows users to filter the table's data based on the input search query.
 const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQuery }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -13,11 +12,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchQuery, setSearchQuery }) =>
 
   return (
     <div className="searchBar-container">
-      <label>Search:</label>
-      <input type="text" value={searchQuery} onChange={handleInputChange} />
+      <label htmlFor="search-input">Search:</label>
+      <input
+        id="search-input" 
+        type="text"
+        value={searchQuery}
+        onChange={handleInputChange}
+        aria-label="Search"
+      />
     </div>
   );
 };
 
 export default SearchBar;
-
