@@ -7,3 +7,4 @@ tsconfig.node.json
 vite.config.ts
 main.tsx
 data.ts
+.vscode

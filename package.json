@@ -1,7 +1,7 @@
 {
   "name": "@ionutpuenaru/employee_table",
   "version": "1.1.12",
-  "description": "A reusable Employee Table component",
+  "description": "A reusable and dynamic Employee Table component",
   "main": "dist/my-employee-list-package.umd.js",
   "module": "dist/my-employee-list-package.es.js",
   "types": "dist/index.d.ts",
@@ -11,15 +11,18 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
-    "deploy": "npm publish --access public"
+    "deploy": "npm publish --access public",
+    "test": "vitest"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.2.7",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-redux": "^9.1.2"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.4.8",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20.14.12",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -29,15 +32,24 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "jsdom": "^24.1.1",
     "typescript": "^5.2.2",
     "vite": "^5.3.4",
     "vite-plugin-css-injected-by-js": "^3.5.1",
-    "vite-plugin-dts": "^4.0.0-beta.1"
+    "vite-plugin-dts": "^4.0.0-beta.1",
+    "vitest": "^2.0.5"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "author": "Puenaru Ionut",
-  "license": "ISC"
+  "license": "ISC",
+  "keywords": [
+    "employee",
+    "table",
+    "react",
+    "component",
+    "typescript"
+  ]
 }

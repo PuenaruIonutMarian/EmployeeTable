@@ -1,3 +1,10 @@
+/**
+ * Props for the Pagination component.
+ * @typedef {Object} PaginationProps
+ * @property {number} totalPages - The total number of pages available.
+ * @property {number} currentPage - The current page number.
+ * @property {function(number): void} onPageChange - Callback function to handle page changes. Receives the new page number as an argument.
+ */
 type PaginationProps = {
   totalPages: number;
   currentPage: number;
@@ -5,7 +12,24 @@ type PaginationProps = {
 };
 
 
+/**
+ * Pagination is a React component that provides navigation controls for paginated content.
+ * It allows users to navigate between pages, displaying the current page, and providing buttons
+ * to move to the previous or next page. The component also handles the display of ellipses ('...') 
+ * when the total number of pages exceeds a specified limit.
+ * 
+ * @param {PaginationProps} props - The props for the component.
+ * @param {number} props.totalPages - The total number of pages.
+ * @param {number} props.currentPage - The currently active page number.
+ * @param {function(number): void} props.onPageChange - Function to call when the page is changed.
+ * @returns {JSX.Element} The JSX for the Pagination component.
+ */
 const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPageChange }) => {
+   /**
+   * Generates an array of page numbers (and ellipses) to display in the pagination control.
+   * 
+   * @returns {Array<number|string>} An array of page numbers and/or ellipses to be rendered.
+   */
   const generatePageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 4;
@@ -39,6 +63,11 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPage
     return pages;
   };
 
+   /**
+   * Handles a click on a page number. If the page number is valid (not '...'), it calls the onPageChange callback.
+   * 
+   * @param {number|string} page - The page number or ellipsis ('...') that was clicked.
+   */
   const handlePageClick = (page: number | string) => {
     if (page === '...') return;
     onPageChange(page as number);
