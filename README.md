@@ -27,6 +27,7 @@ This project uses a variety of technologies and tools to build and maintain the 
 * `React DOM`: A package that provides DOM-specific methods for React.
 * `TypeScript`: A strongly typed programming language that builds on JavaScript.
 * `Vite`: A fast build tool and development server.
+* `Vitest`: A fast and efficient testing framework for Vite projects.
 * `ESLint`: A tool for identifying and fixing problems in JavaScript and TypeScript code.
 * `Vite Plugin React`: A Vite plugin to support React in the development process.
 * `Vite Plugin CSS Injected by JS`: A plugin for injecting CSS via JavaScript in Vite projects.
@@ -144,7 +145,7 @@ To develop and test this component locally:
 
 5. Run Tests:
      ```sh 
-     npm test
+     npm run test
      ```
 
 ## Authors

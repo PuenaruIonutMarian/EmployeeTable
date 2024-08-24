@@ -34,7 +34,8 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
 }) => {
   /** State for managing which column is sorted and in what direction. */
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>({
-    key: Object.keys(data[0])[0], // Default to the first column
+    // key: Object.keys(data[0])[0], // Default to the first column
+    key: data.length > 0 ? Object.keys(data[0])[0] : '', // Default to the first column
     direction: 'asc',
   });
 
@@ -88,7 +89,7 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
   };
 
   return (
-    <div className={`table-container ${tableAppClassName}`}>
+    <div className={`table-container ${tableAppClassName}`} role='table'>
       <div className='headerFunctions'>
         <Selector
           rowsPerPage={rowsPerPage}
@@ -99,7 +100,10 @@ export const EmployeeTable: React.FC<EmployeeTableProps> = ({
           setSearchQuery={setSearchQuery}
         />
       </div>
-      {data.length === 0 ? (
+      {/* {data.length === 0 ? (
+        <p>No data available</p>
+      ) : ( */}
+       {data.length === 0 || filteredData.length === 0 ? (
         <p>No data available</p>
       ) : (
         <>
